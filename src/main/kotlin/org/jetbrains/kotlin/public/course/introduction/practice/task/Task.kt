@@ -9,8 +9,7 @@ const val FROM = 10
 
 // Then log all user's answers into a string and print the log og the game.
 
-fun readNumber(): Int?
-{
+fun readNumber(): Int? {
     TODO("Read the input and return it; return null if the input is not a number")
 }
 
