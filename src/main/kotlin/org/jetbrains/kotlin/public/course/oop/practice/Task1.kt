@@ -19,6 +19,19 @@ open class ReadResult {
     data class Failure(val message: String) : ReadResult()
 }
 
+private fun ReadResult.contentOrThrow(): String = when (this) {
+    is ReadResult.PlainText -> content
+    is ReadResult.Markdown  -> content
+    is ReadResult.Failure   -> error(message)
+    else                    -> error("Wrong result type: $this")
+}
+
+fun ReadResult.countChar(ch: Char): Int = contentOrThrow().count { it == ch }
+
+operator fun ReadResult.get(begin: Int, end: Int): String {
+    val s = contentOrThrow()
+    return s.substring(begin, end)
+}
 
 interface FileReader {
     fun read(path: Path): ReadResult
@@ -51,5 +64,7 @@ class UniversalReader: FileReader {
 }
 
 fun main() {
-
+    val path = Path.of("abc.txt")
+    val res = UniversalReader().read(path)
+    println(res)
 }
