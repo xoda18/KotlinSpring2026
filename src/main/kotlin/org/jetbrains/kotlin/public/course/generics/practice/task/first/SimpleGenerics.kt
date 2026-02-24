@@ -14,9 +14,9 @@ Once the type argument is introduced, the code of printNodes function will becom
 /**
  * A binary tree node that holds some value.
  */
-data class TreeNode(val value: Any) {
-    var left: TreeNode? = null
-    var right: TreeNode? = null
+data class TreeNode<T>(val value: T) {
+    var left: TreeNode<T>? = null
+    var right: TreeNode<T>? = null
 }
 
 /**
@@ -42,8 +42,7 @@ fun printNodes(): String {
 
     val decisionI = Decision("Do you choose a red or a blue pill?", "Red", "Blue")
     val decisionTree = TreeNode(decisionI)
-    TODO("Uncomment code bellow and make the file compilable")
-//    return "${genealogyTree.value.name} ${decisionTree.value.answerLeft}"
+    return "${genealogyTree.value.name} ${decisionTree.value.answerLeft}"
 }
 
 fun main() {

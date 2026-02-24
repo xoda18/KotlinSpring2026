@@ -13,7 +13,7 @@ interface Sender<in T> {
     fun send(item: T)
 }
 
-class MailBox<T>(private var box: T? = null): Sender<T> {
+class MailBox<T>(private var box: T? = null) : Sender<T> {
     override fun send(item: T) {
         printCurrentBoxState()
         println("Sending the box: $item!")
@@ -23,19 +23,20 @@ class MailBox<T>(private var box: T? = null): Sender<T> {
     private fun printCurrentBoxState() {
         if (box != null) {
             println("I have a box: $box!")
-        } else  {
+        } else {
             println("I have nothing")
         }
     }
 
 }
 
-class Postman<T>(private val mailboxes: List<Sender<T>>): Sender<T> {
+class Postman<T>(private val mailboxes: List<Sender<T>>) : Sender<T> {
     override fun send(item: T) {
         mailboxes.forEach { it.send(item) }
     }
 
 }
+
 interface Delivery
 
 open class Postcard(open val origin: String) : Delivery
@@ -51,7 +52,7 @@ fun main() {
 
     val topRatedPostman = Postman(listOf(postcardStorage, expressPostcardStorage as Sender<ExpressPostcard>))
     topRatedPostman.send(expressPostcard)
-//    topRatedPostman.send(postcard) // ERROR
+    //topRatedPostman.send(postcard) // ERROR
 
     val juniorPostman = Postman(listOf(postcardStorage))
     juniorPostman.send(postcard)

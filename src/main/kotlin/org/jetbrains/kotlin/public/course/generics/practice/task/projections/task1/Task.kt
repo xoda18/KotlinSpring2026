@@ -9,12 +9,12 @@ Then, you need to modify code somehow to be able to create topRatedPostman and j
  - The juniorPostman can send both regular and express postcards
 **/
 
-interface Sender {
-    fun send(item: Any)
+interface Sender<in T> {
+    fun send(item: T)
 }
 
-class MailBox(private var box: Any? = null): Sender {
-    override fun send(item: Any) {
+class MailBox<T>(private var box: T? = null): Sender<T> {
+    override fun send(item: T) {
         printCurrentBoxState()
         println("Sending the box: $item!")
         box = item
@@ -30,8 +30,8 @@ class MailBox(private var box: Any? = null): Sender {
 
 }
 
-class Postman(private val mailboxes: List<Sender>): Sender {
-    override fun send(item: Any) {
+class Postman<T>(private val mailboxes: List<Sender<in T>>): Sender<T> {
+    override fun send(item: T) {
         mailboxes.forEach { it.send(item) }
     }
 
@@ -43,14 +43,18 @@ open class Postcard(open val origin: String) : Delivery
 data class ExpressPostcard(val priceEuro: Int, override val origin: String) : Postcard(origin)
 
 fun main() {
-    // TODO: This code should became compilable
-//    val postcardStorage = MailBox<Postcard>()
-//    val expressPostcardStorage = MailBox<ExpressPostcard>()
+    val postcardStorage = MailBox<Postcard>()
+    val expressPostcardStorage = MailBox<ExpressPostcard>()
 
     val expressPostcard = ExpressPostcard(15, "Serbia")
     val postcard = Postcard("Germany")
 
-    // TODO: add code to create topRatedPostman and juniorPostman.
-    //  The topRatedPostman can send ONLY express postcards
-    //  The juniorPostman can send both regular and express postcards
+    val topRatedPostman = Postman(listOf(postcardStorage, expressPostcardStorage as Sender<ExpressPostcard>))
+    val juniorPostman = Postman(listOf(postcardStorage))
+
+    topRatedPostman.send(expressPostcard)
+    //topRatedPostman.send(postcard)
+
+    juniorPostman.send(postcard)
+    juniorPostman.send(expressPostcard)
 }
