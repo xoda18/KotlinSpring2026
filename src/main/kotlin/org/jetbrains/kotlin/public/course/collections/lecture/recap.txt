@@ -1,0 +1,37 @@
+Collections with their properties:
+
+0. Iterable/MutableIterable
+ - You have iterator (next() + hasNext() + remove if mutable)
+
+0.5. Collection
+ - You can get size
+ - You can check if an element in a collection
+ - You can add/remove elements
+ 
+1. Array
+ - NOT a collection
+ - Iterable + access by index
+
+2. List/MutableList
+ - Access by index + get index of element
+ - The iterator can go both ways
+ - Important: List.subList() returns VIEW
+
+3. Set/MutableSet
+ - Unique values
+
+4. Map/MutableMap
+ - NOT a collection, but has a Set of pairs inside (entries). Duplicates a lot of functions from Collection
+ - Key-value storage
+ - All operations are by key
+
+All have functions like mutableListOf<>(), direct invocations (e.g. ArrayList<>()) and buildList {} functions
+
+5. Range
+ - Iterable
+
+6. Sequence
+ - Iterable
+ - Lazy computation (until .next() in iterator is called the block will not be executed)
+
+List vs. Sequence is evident in the case of usage of extension functions (see examples)
