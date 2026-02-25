@@ -2,11 +2,11 @@ package org.jetbrains.kotlin.public.course.generics.practice.task.projections.ta
 
 /* Projections #1
 
-In this task, you need to work with projections.
-First of all, you need to make it possible to create different types of MailBox.
-Then, you need to modify code somehow to be able to create topRatedPostman and juniorPostman:
- - The topRatedPostman can send ONLY express postcards
- - The juniorPostman can send both regular and express postcards
+Implement a system of news agencies with the following rules:
+ - There exists only regular and elite agencies
+ - Regular can accept any scoop, elite - only elite scoops
+ - Elite reporter can deliver only elite scoops, but to any agency
+ - Regular reporter can deliver any scoop, but only to regular agencies
 **/
 
 interface Sender<in T> {
@@ -19,28 +19,17 @@ class MailBox<T>(private var box: T? = null): Sender<T> {
         println("Sending the box: $item!")
         box = item
     }
-
-    private fun printCurrentBoxState() {
-        if (box != null) {
-            println("I have a box: $box!")
-        } else  {
-            println("I have nothing")
-        }
-    }
-
 }
 
 class Postman<T>(private val mailboxes: List<Sender<in T>>): Sender<T> {
     override fun send(item: T) {
         mailboxes.forEach { it.send(item) }
     }
-
 }
-interface Delivery
 
-open class Postcard(open val origin: String) : Delivery
+interface Scoop
 
-data class ExpressPostcard(val priceEuro: Int, override val origin: String) : Postcard(origin)
+open class Normal(open val info: String) : Scoop
 
 fun main() {
     val postcardStorage = MailBox<Postcard>()
